@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+:root {
+  /* Warm, premium tavern palette */
+  --bg: #0b0a08; /* near-black */
+  --fg: #f3efe7; /* warm ivory */
+  --muted: rgba(243, 239, 231, 0.72);
+  --card: rgba(255, 255, 255, 0.06);
+  --card-strong: rgba(255, 255, 255, 0.10);
+  --border: rgba(255, 255, 255, 0.12);
+  --ring: rgba(245, 158, 11, 0.45);
+  --accent: #f59e0b; /* amber */
+  --accent-2: #f97316; /* orange */
+  --danger: #ef4444;
+
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  --shadow-soft: 0 12px 28px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 18px 50px rgba(0, 0, 0, 0.45);
+  --radius: 24px;
+}
+
+@theme inline {
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-heading);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: radial-gradient(
+      1200px 600px at 50% -10%,
+      rgba(245, 158, 11, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      800px 500px at 12% 18%,
+      rgba(249, 115, 22, 0.10),
+      transparent 55%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 30%),
+    var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+::selection {
+  background: rgba(245, 158, 11, 0.25);
+}
+
+/* Subtle “texture” without cheesy images */
+.grain {
+  position: relative;
+}
+.grain:before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0);
+  background-size: 18px 18px;
+  mix-blend-mode: overlay;
+}
+
+/* Premium separators */
+.section-fade-top {
+  position: relative;
+}
+.section-fade-top:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 80px;
+  background: linear-gradient(to bottom, rgba(11, 10, 8, 0.92), transparent);
+  pointer-events: none;
+}
+
+/* Better focus rings for dark UI */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* Smooth tap highlights on mobile */
+:where(a, button) {
+  -webkit-tap-highlight-color: transparent;
+}

@@ -1,0 +1,11 @@
+{
+  "name": "serbian-rest-root",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix serbian-rest run dev",
+    "build": "npm --prefix serbian-rest run build",
+    "start": "npm --prefix serbian-rest run start",
+    "lint": "npm --prefix serbian-rest run lint"
+  }
+}
+

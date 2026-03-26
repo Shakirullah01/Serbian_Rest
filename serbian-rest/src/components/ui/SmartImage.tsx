@@ -9,6 +9,7 @@ type Props = Omit<ImageProps, "src" | "alt"> & {
   alt: string;
   fallbackSrc?: string;
   className?: string;
+  unoptimized?: boolean;
 };
 
 export function SmartImage({
@@ -16,6 +17,7 @@ export function SmartImage({
   alt,
   fallbackSrc = "/images/placeholder.svg",
   className,
+  unoptimized = true,
   ...props
 }: Props) {
   const initial = useMemo(() => (src && src.trim().length ? src : fallbackSrc), [
@@ -29,6 +31,7 @@ export function SmartImage({
       {...props}
       src={currentSrc}
       alt={alt}
+      unoptimized={unoptimized}
       className={cn("bg-white/5", className)}
       onError={() => {
         if (currentSrc !== fallbackSrc) setCurrentSrc(fallbackSrc);

@@ -8,7 +8,7 @@ import { SmartImage } from "@/components/ui/SmartImage";
 import { formatRub, formatWeightGr } from "@/lib/format";
 import type { MenuCategory } from "@/types/menu";
 import { Badge } from "@/components/ui/Badge";
-import { resolveDishImage } from "@/lib/images/resolver";
+import { resolveMenuImageById } from "@/lib/images/resolver";
 
 export function MenuSection() {
   const [active, setActive] = useState(menuCategories[0]?.id);
@@ -97,11 +97,7 @@ function MenuList({ category }: { category: MenuCategory }) {
           >
             <div className="relative h-[76px] w-[76px] overflow-hidden rounded-xl border border-white/10 bg-white/5 sm:h-[86px] sm:w-[86px]">
               <SmartImage
-                src={resolveDishImage({
-                  dishName: item.name,
-                  categoryId: category.id,
-                  explicitSrc: item.imageSrc,
-                })}
+                src={resolveMenuImageById(item.id)}
                 alt={item.name}
                 fill
                 sizes="96px"

@@ -1,4 +1,5 @@
 import { imageManifest } from "@/data/imageManifest";
+import { menuImageMap } from "@/data/menu-image-map";
 import type { MenuCategoryId } from "@/types/menu";
 
 export function normalizeDishName(input: string): string {
@@ -228,6 +229,13 @@ export function resolveDishImage({
   }
   if (best) return best.path;
 
+  return "/images/placeholder.svg";
+}
+
+export function resolveMenuImageById(itemId: string): string {
+  const all = imageManifest.all as readonly string[];
+  const mapped = menuImageMap[itemId];
+  if (mapped && all.includes(mapped)) return mapped;
   return "/images/placeholder.svg";
 }
 

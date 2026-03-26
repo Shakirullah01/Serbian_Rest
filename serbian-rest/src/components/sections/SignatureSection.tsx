@@ -4,7 +4,7 @@ import { SmartImage } from "@/components/ui/SmartImage";
 import { Badge } from "@/components/ui/Badge";
 import { formatRub, formatWeightGr } from "@/lib/format";
 import { Reveal } from "@/components/ui/Reveal";
-import { resolveDishImage } from "@/lib/images/resolver";
+import { resolveMenuImageById } from "@/lib/images/resolver";
 
 export function SignatureSection() {
   return (
@@ -18,13 +18,9 @@ export function SignatureSection() {
           <Reveal key={dish.id} delayMs={idx * 60}>
             <article className="group h-full overflow-hidden rounded-3xl border border-white/10 bg-white/6 shadow-[var(--shadow)] transition hover:border-white/16 hover:bg-white/8">
               <div className="relative aspect-[4/3] overflow-hidden">
-                {/* Фото матчится автоматически по имени файла (см. `src/lib/images/resolver.ts`) */}
+                {/* Фото берется из явной карты menu-image-map.ts */}
                 <SmartImage
-                  src={resolveDishImage({
-                    dishName: dish.name,
-                    categoryId: "serbian-specialties",
-                    explicitSrc: dish.imageSrc,
-                  })}
+                  src={resolveMenuImageById(dish.id)}
                   alt={dish.name}
                   fill
                   sizes="(max-width: 1024px) 100vw, 25vw"

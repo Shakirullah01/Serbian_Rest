@@ -58,6 +58,74 @@ const dishNameAliases: Record<string, string[]> = {
   ],
 };
 
+/**
+ * Manual mapping for renamed English filenames in `public/images/menu/*`.
+ * Keep this list in sync when you rename files for deploy.
+ */
+const dishImageManualMap: Record<string, string> = {
+  [normalizeDishName("Салат с говяжьим языком")]:
+    "/images/menu/salad/salad cow tounge.jfif",
+  [normalizeDishName("Салат “Шопский”")]:
+    "/images/menu/salad/salad shopski.jfif",
+  [normalizeDishName("Салат с кальмаром")]:
+    "/images/menu/salad/salad kalmar.jfif",
+  [normalizeDishName("Салат с тигровыми креветками")]:
+    "/images/menu/salad/salad shrimps.jfif",
+  [normalizeDishName("Салат с сёмгой")]:
+    "/images/menu/salad/salad yumgay.jfif",
+  [normalizeDishName("Тёплый салат с ростбифом")]:
+    "/images/menu/salad/salad truflle.jfif",
+  [normalizeDishName("Салат с курицей")]:
+    "/images/menu/salad/salad chicken.jfif",
+  [normalizeDishName("Салат с хрустящим баклажаном")]:
+    "/images/menu/salad/salad baklajan.jfif",
+  [normalizeDishName("Ягнёнок сач")]:
+    "/images/menu/serbian specials/yagnyunok sach.jfif",
+  [normalizeDishName("Телёнок сач")]:
+    "/images/menu/serbian specials/sich telyunok.jfif",
+  [normalizeDishName("Рибич")]:
+    "/images/menu/serbian specials/ribich.jfif",
+  [normalizeDishName("Сербские колбаски на гриле")]:
+    "/images/menu/serbian specials/serbian sosiski.jfif",
+  [normalizeDishName("Рулька по-сербски")]:
+    "/images/menu/serbian specials/rulka pa seberski.jfif",
+  [normalizeDishName("Суп с морепродуктами")]:
+    "/images/menu/soups/soup sea food.jfif",
+  [normalizeDishName("Суп куриный с яйцом")]:
+    "/images/menu/soups/soup with eggs.jfif",
+  [normalizeDishName("Грибница")]:
+    "/images/menu/soups/gibnitsa.jfif",
+  [normalizeDishName("Суп рыбный")]:
+    "/images/menu/soups/soup fish.jfif",
+  [normalizeDishName("Телячья чорба")]:
+    "/images/menu/soups/telchya.jfif",
+  [normalizeDishName("Голяшка ягнёнка")]:
+    "/images/menu/meat dishes/golyasha.jfif",
+  [normalizeDishName("Шашлык из свиной вырезки")]:
+    "/images/menu/meat dishes/shashlik pig.jfif",
+  [normalizeDishName("Шейка свиная “Хайдук”")]:
+    "/images/menu/meat dishes/haydak pig.jfif",
+  [normalizeDishName("Шейка свиная «Хайдук»")]:
+    "/images/menu/meat dishes/haydak pig.jfif",
+  [normalizeDishName("Шашлык куриный")]:
+    "/images/menu/meat dishes/shashlik chicken.jfif",
+  [normalizeDishName("Дорадо на гриле")]:
+    "/images/menu/dishes of fish and sea food/dorado.jfif",
+  [normalizeDishName("Судак под сыром")]:
+    "/images/menu/dishes of fish and sea food/sudak.jfif",
+  [normalizeDishName("Филе лосося на гриле")]:
+    "/images/menu/dishes of fish and sea food/file grile.jfif",
+  [normalizeDishName("Мясное ассорти “Серпска плата”")]:
+    "/images/menu/dishes for accoumpany/serpska plata.jfif",
+  [normalizeDishName("Рыбное ассорти на гриле “Плата Адриатика”")]:
+    "/images/menu/dishes for accoumpany/fish asourt.jfif",
+  [normalizeDishName("Шоколадный чизкейк со сливочным соусом")]:
+    "/images/menu/deserts/chocolate cheescake.jfif",
+  [normalizeDishName("Мильфей")]: "/images/menu/deserts/milfie.jfif",
+  [normalizeDishName("Закуска сербская “Меззе”")]:
+    "/images/menu/cold junk/zakuska.jfif",
+};
+
 function publicCandidates(categoryId: MenuCategoryId | undefined, baseName: string) {
   const roots: string[] = [];
 
@@ -134,6 +202,10 @@ export function resolveDishImage({
     const directAlias = (aSlug && bySlug[aSlug]) || (aNorm && byNormalized[aNorm]);
     if (directAlias) return directAlias;
   }
+
+  // 0.5) Explicit manual filename mapping
+  const mapped = dishImageManualMap[norm];
+  if (mapped && all.includes(mapped)) return mapped;
 
   // 1) Fast exact matches from generated manifest (works even for .jfif)
   const direct = (slug && bySlug[slug]) || (norm && byNormalized[norm]);

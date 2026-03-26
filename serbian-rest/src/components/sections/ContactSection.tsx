@@ -76,9 +76,6 @@ export function ContactSection() {
               <HoursRow day="Суббота" value={restaurant.hours.saturday} />
               <HoursRow day="Воскресенье" value={restaurant.hours.sunday} />
             </div>
-            <p className="mt-3 text-xs text-white/50">
-              {restaurant.accessibility.wheelchair}
-            </p>
           </div>
         </div>
 
@@ -119,7 +116,7 @@ export function ContactSection() {
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="grid grid-cols-[160px_1fr] items-baseline gap-3">
+    <div className="grid grid-cols-1 gap-1 sm:grid-cols-[160px_1fr] sm:gap-3">
       <div className="text-xs uppercase tracking-[0.22em] text-white/55">
         {label}
       </div>

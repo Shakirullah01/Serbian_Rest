@@ -1,12 +1,29 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { reviews } from "@/data/reviews";
 import { restaurant } from "@/config/restaurant";
 import { Section } from "@/components/ui/Section";
 import { Badge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
+import { cn } from "@/lib/cn";
 
 export function ReviewsSection() {
+  const [index, setIndex] = useState(0);
+  const total = reviews.length;
+  const current = reviews[index];
+  const secondary = useMemo(
+    () => reviews[(index + 1) % total] ?? null,
+    [index, total]
+  );
+
+  function prev() {
+    setIndex((v) => (v - 1 + total) % total);
+  }
+  function next() {
+    setIndex((v) => (v + 1) % total);
+  }
+
   return (
     <Section
       id="reviews"
@@ -40,28 +57,50 @@ export function ReviewsSection() {
           </div>
         </Reveal>
 
-        <div>
-          <div className="hidden grid-cols-2 gap-4 md:grid">
-            {reviews.slice(0, 6).map((r, idx) => (
-              <Reveal key={r.id} delayMs={idx * 60}>
-                <ReviewCard {...r} />
-              </Reveal>
-            ))}
-          </div>
-
-          <div className="md:hidden">
-            <div className="flex gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-              {reviews.map((r) => (
-                <div key={r.id} className="min-w-[84%] snap-start">
-                  <ReviewCard {...r} />
+        <Reveal>
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/6 p-4 shadow-[var(--shadow-soft)]">
+            <div className="grid gap-3 md:grid-cols-2">
+              {current ? <ReviewCard {...current} /> : null}
+              {secondary ? (
+                <div className="hidden md:block">
+                  <ReviewCard {...secondary} compact />
                 </div>
-              ))}
+              ) : null}
             </div>
-            <p className="mt-2 text-xs text-white/45">
-              Листайте в сторону, чтобы посмотреть больше отзывов.
-            </p>
+
+            <div className="mt-4 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-1.5">
+                {reviews.map((r, i) => (
+                  <button
+                    key={r.id}
+                    onClick={() => setIndex(i)}
+                    className={cn(
+                      "h-1.5 rounded-full transition",
+                      i === index ? "w-6 bg-amber-400" : "w-2 bg-white/35"
+                    )}
+                    aria-label={`Отзыв ${i + 1}`}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={prev}
+                  className="rounded-2xl border border-white/12 bg-white/6 p-2 text-white/85 hover:bg-white/10"
+                  aria-label="Предыдущий отзыв"
+                >
+                  <ArrowLeft />
+                </button>
+                <button
+                  onClick={next}
+                  className="rounded-2xl border border-white/12 bg-white/6 p-2 text-white/85 hover:bg-white/10"
+                  aria-label="Следующий отзыв"
+                >
+                  <ArrowRight />
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </Section>
   );
@@ -84,15 +123,17 @@ function ReviewCard({
   text,
   highlight,
   rating,
+  compact,
 }: {
   name: string;
   date: string;
   text: string;
   highlight?: string;
   rating?: 4 | 5;
+  compact?: boolean;
 }) {
   return (
-    <article className="h-full rounded-3xl border border-white/10 bg-white/6 p-5 shadow-[var(--shadow-soft)] transition hover:border-white/16 hover:bg-white/8">
+    <article className="h-full rounded-3xl border border-white/10 bg-white/6 p-5 transition hover:border-white/16 hover:bg-white/8">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-sm font-semibold text-white">{name}</p>
@@ -104,11 +145,46 @@ function ReviewCard({
           </div>
         ) : null}
       </div>
-      <p className="mt-4 text-sm leading-relaxed text-white/70">{text}</p>
+      <p
+        className={cn(
+          "mt-4 text-sm leading-relaxed text-white/70",
+          compact && "max-h-[5.8rem] overflow-hidden"
+        )}
+      >
+        {text}
+      </p>
       {highlight ? (
         <div className="mt-4 text-xs text-amber-200/90">{highlight}</div>
       ) : null}
     </article>
+  );
+}
+
+function ArrowLeft() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M15 6L9 12L15 18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ArrowRight() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M9 6L15 12L9 18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 

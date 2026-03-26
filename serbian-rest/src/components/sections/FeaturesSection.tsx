@@ -43,11 +43,6 @@ const features = [
     text: "Комфорт в деталях — как и должно быть в хорошем месте.",
     icon: DoorIcon,
   },
-  {
-    title: "Доступность",
-    text: "К сожалению, вход недоступен для кресел‑колясок.",
-    icon: InfoIcon,
-  },
 ] as const;
 
 export function FeaturesSection() {
@@ -270,27 +265,4 @@ function DoorIcon() {
   );
 }
 
-function InfoIcon() {
-  return iconBase(
-    <>
-      <path
-        d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path
-        d="M12 10v6"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M12 7h.01"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-    </>
-  );
-}
 
